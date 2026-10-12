@@ -25,8 +25,9 @@ def _features(decl: pd.DataFrame) -> pd.DataFrame:
 def _elbow(ks, inertias):
     x, y = np.array(ks, float), np.array(inertias, float)
     x, y = (x - x.min()) / (x.max() - x.min()), (y - y.min()) / (y.max() - y.min() + 1e-12)
-    p1, p2 = np.array([x[0], y[0]]), np.array([x[-1], y[-1]])
-    dist = [abs(np.cross(p2 - p1, np.array([a, b]) - p1)) / np.linalg.norm(p2 - p1) for a, b in zip(x, y)]
+    x1, y1, x2, y2 = x[0], y[0], x[-1], y[-1]
+    norm = np.hypot(x2 - x1, y2 - y1) or 1.0
+    dist = [abs((x2 - x1) * (b - y1) - (y2 - y1) * (a - x1)) / norm for a, b in zip(x, y)]
     return ks[int(np.argmax(dist))]
 
 
