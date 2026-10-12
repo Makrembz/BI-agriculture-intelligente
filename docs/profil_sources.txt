@@ -1,0 +1,59 @@
+## water_rights (water-rights-irrigation-water-use-annual-report.csv) : 30 colonnes
+Colonnes : REPORT_YEAR, REVISION, REVISION_ATTRIBUTE, REPORT_SYSTEM_UNIQUE_ID, PRIMARY_OWNER, PRIMARY_CONTACT, DATE_SUBMITTED, APPLICATION_NUMBER, CERTIFICATE_ID, PERMIT_ID, LICENSE_ID, WATER_RIGHT_TYPE, WATER_RIGHT_STATUS, SOURCE_OF_WATER, POD_PARCEL_NUMBER, COUNTY, MAX_DIRECT_DIVERSION_RATE, MAX_DIRECT_DIVERSION_RATE_UNIT, MAX_COLLECTION_TO_STORAGE, MAX_COLLECTION_TO_STORAGE_UNIT, FACE_VALUE, FACE_VALUE_UNIT, NOT_USED_UNDER_WR, IRRIGATION, CROP_TYPE, MULTIPLE_CROPS, AREA_IRRIGATED, PRIMARY_IRRIG_METHOD, TOTAL_ACRES_IRRIGATED, TOTAL_CROPS
+Exemple 1 : REPORT_YEAR=2020 | REVISION=0 | REVISION_ATTRIBUTE=Last_Revision | REPORT_SYSTEM_UNIQUE_ID=521604 | PRIMARY_OWNER=U S SIERRA NATL FOREST | PRIMARY_CONTACT=   | DATE_SUBMITTED=nan | APPLICATION_NUMBER=F003775C | CERTIFICATE_ID=nan | PERMIT_ID=nan | LICENSE_ID=nan | WATER_RIGHT_TYPE=Federal Stockponds | WATER_RIGHT_STATUS=Certified | SOURCE_OF_WATER=nan | POD_PARCEL_NUMBER=nan | COUNTY=nan | MAX_DIRECT_DIVERSION_RATE=nan | MAX_DIRECT_DIVERSION_RATE_UNIT=nan | MAX_COLLECTION_TO_STORAGE=nan | MAX_COLLECTION_TO_STORAGE_UNIT=ac-ft | FACE_VALUE=nan | FACE_VALUE_UNIT=ac-ft | NOT_USED_UNDER_WR=no | IRRIGATION=no | CROP_TYPE=nan | MULTIPLE_CROPS=nan | AREA_IRRIGATED=nan | PRIMARY_IRRIG_METHOD=nan | TOTAL_ACRES_IRRIGATED=nan | TOTAL_CROPS=nan
+Exemple 2 : REPORT_YEAR=2020 | REVISION=0 | REVISION_ATTRIBUTE=Last_Revision | REPORT_SYSTEM_UNIQUE_ID=521605 | PRIMARY_OWNER=U S SIERRA NATL FOREST | PRIMARY_CONTACT=   | DATE_SUBMITTED=nan | APPLICATION_NUMBER=F003779C | CERTIFICATE_ID=nan | PERMIT_ID=nan | LICENSE_ID=nan | WATER_RIGHT_TYPE=Federal Stockponds | WATER_RIGHT_STATUS=Certified | SOURCE_OF_WATER=nan | POD_PARCEL_NUMBER=nan | COUNTY=nan | MAX_DIRECT_DIVERSION_RATE=nan | MAX_DIRECT_DIVERSION_RATE_UNIT=nan | MAX_COLLECTION_TO_STORAGE=nan | MAX_COLLECTION_TO_STORAGE_UNIT=ac-ft | FACE_VALUE=nan | FACE_VALUE_UNIT=ac-ft | NOT_USED_UNDER_WR=no | IRRIGATION=no | CROP_TYPE=nan | MULTIPLE_CROPS=nan | AREA_IRRIGATED=nan | PRIMARY_IRRIG_METHOD=nan | TOTAL_ACRES_IRRIGATED=nan | TOTAL_CROPS=nan
+   annee            -> REPORT_YEAR
+   droit_id         -> APPLICATION_NUMBER
+   exploitant       -> (non trouve)
+   comte            -> COUNTY
+   culture          -> CROP_TYPE
+   surface          -> AREA_IRRIGATED
+   source           -> SOURCE_OF_WATER
+   type_droit       -> WATER_RIGHT_TYPE
+   volume_autorise  -> FACE_VALUE
+   volume_declare   -> (non trouve)
+   methode          -> (non trouve)
+
+## et_comte (et_comte.csv) : 22 colonnes
+Colonnes : ID, NAME, area_acres, max_mask_area_acres, year_month, year, month, timestep, DISALEXI_ET_mean_in, EEMETRIC_ET_mean_in, ENSEMBLE_ET_mean_in, GEESEBAL_ET_mean_in, PTJPL_ET_mean_in, SIMS_ET_mean_in, SSEBOP_ET_mean_in, DISALEXI_ET_acre_ft, EEMETRIC_ET_acre_ft, ENSEMBLE_ET_acre_ft, GEESEBAL_ET_acre_ft, PTJPL_ET_acre_ft, SIMS_ET_acre_ft, SSEBOP_ET_acre_ft
+Exemple 1 : ID=0 | NAME=Alameda | area_acres=839693.81 | max_mask_area_acres=10480.0 | year_month=2003-10 | year=2003 | month=10.0 | timestep=month | DISALEXI_ET_mean_in=0.82 | EEMETRIC_ET_mean_in=1.17 | ENSEMBLE_ET_mean_in=1.11 | GEESEBAL_ET_mean_in=0.85 | PTJPL_ET_mean_in=1.6 | SIMS_ET_mean_in=1.06 | SSEBOP_ET_mean_in=1.18 | DISALEXI_ET_acre_ft=719.55 | EEMETRIC_ET_acre_ft=1024.2 | ENSEMBLE_ET_acre_ft=967.46 | GEESEBAL_ET_acre_ft=742.25 | PTJPL_ET_acre_ft=1395.05 | SIMS_ET_acre_ft=925.58 | SSEBOP_ET_acre_ft=1032.29
+Exemple 2 : ID=1 | NAME=Alameda | area_acres=839693.81 | max_mask_area_acres=10480.0 | year_month=2003-11 | year=2003 | month=11.0 | timestep=month | DISALEXI_ET_mean_in=0.51 | EEMETRIC_ET_mean_in=0.54 | ENSEMBLE_ET_mean_in=0.64 | GEESEBAL_ET_mean_in=0.38 | PTJPL_ET_mean_in=1.09 | SIMS_ET_mean_in=1.25 | SSEBOP_ET_mean_in=0.68 | DISALEXI_ET_acre_ft=441.36 | EEMETRIC_ET_acre_ft=473.1 | ENSEMBLE_ET_acre_ft=563.11 | GEESEBAL_ET_acre_ft=336.2 | PTJPL_ET_acre_ft=955.08 | SIMS_ET_acre_ft=1088.26 | SSEBOP_ET_acre_ft=589.68
+   comte            -> NAME
+   annee            -> year
+   mois             -> month
+   date             -> (non trouve)
+   surface          -> area_acres
+   colonnes ET acre-pieds : []
+   colonnes ET pouces     : ['DISALEXI_ET_mean_in', 'EEMETRIC_ET_mean_in', 'ENSEMBLE_ET_mean_in', 'GEESEBAL_ET_mean_in', 'PTJPL_ET_mean_in', 'SIMS_ET_mean_in', 'SSEBOP_ET_mean_in']
+
+## et_bassin (gw_basin_ag_mask_open_data.csv) : 22 colonnes
+Colonnes : ID, Basin_Subb, area_acres, max_mask_area_acres, year_month, year, month, timestep, DISALEXI_ET_mean_in, EEMETRIC_ET_mean_in, ENSEMBLE_ET_mean_in, GEESEBAL_ET_mean_in, PTJPL_ET_mean_in, SIMS_ET_mean_in, SSEBOP_ET_mean_in, DISALEXI_ET_acre_ft, EEMETRIC_ET_acre_ft, ENSEMBLE_ET_acre_ft, GEESEBAL_ET_acre_ft, PTJPL_ET_acre_ft, SIMS_ET_acre_ft, SSEBOP_ET_acre_ft
+Exemple 1 : ID=0 | Basin_Subb=1-001 | area_acres=40434.45 | max_mask_area_acres=8022.0 | year_month=2003-10 | year=2003 | month=10.0 | timestep=month | DISALEXI_ET_mean_in=1.33 | EEMETRIC_ET_mean_in=2.0 | ENSEMBLE_ET_mean_in=1.94 | GEESEBAL_ET_mean_in=0.39 | PTJPL_ET_mean_in=1.49 | SIMS_ET_mean_in=3.25 | SSEBOP_ET_mean_in=2.79 | DISALEXI_ET_acre_ft=890.65 | EEMETRIC_ET_acre_ft=1334.1 | ENSEMBLE_ET_acre_ft=1299.69 | GEESEBAL_ET_acre_ft=257.42 | PTJPL_ET_acre_ft=998.83 | SIMS_ET_acre_ft=2171.88 | SSEBOP_ET_acre_ft=1864.4
+Exemple 2 : ID=1 | Basin_Subb=1-001 | area_acres=40434.45 | max_mask_area_acres=8022.0 | year_month=2003-11 | year=2003 | month=11.0 | timestep=month | DISALEXI_ET_mean_in=0.33 | EEMETRIC_ET_mean_in=0.81 | ENSEMBLE_ET_mean_in=0.89 | GEESEBAL_ET_mean_in=0.37 | PTJPL_ET_mean_in=1.4 | SIMS_ET_mean_in=1.39 | SSEBOP_ET_mean_in=0.86 | DISALEXI_ET_acre_ft=218.3 | EEMETRIC_ET_acre_ft=539.78 | ENSEMBLE_ET_acre_ft=592.54 | GEESEBAL_ET_acre_ft=249.95 | PTJPL_ET_acre_ft=938.15 | SIMS_ET_acre_ft=932.53 | SSEBOP_ET_acre_ft=573.27
+   bassin           -> Basin_Subb
+   code_bassin      -> (non trouve)
+   annee            -> year
+   mois             -> month
+   date             -> (non trouve)
+   colonnes ET acre-pieds : []
+   colonnes ET pouces     : ['DISALEXI_ET_mean_in', 'EEMETRIC_ET_mean_in', 'ENSEMBLE_ET_mean_in', 'GEESEBAL_ET_mean_in', 'PTJPL_ET_mean_in', 'SIMS_ET_mean_in', 'SSEBOP_ET_mean_in']
+
+## cimis_stations (i04_CIMIS_Weather_Stations.csv) : 18 colonnes
+Colonnes : X, Y, OBJECTID, Name, County, Latitude, Longitude, Status, Date_Data_Refers_To, Comments, Source, Last_Modified_Date, ID, DWR_Regional_Office_, Elevation, Connect, Disconnect, Last_Modified_By
+Exemple 1 : X=-119.732000000357 | Y=36.8139999997478 | OBJECTID=1 | Name=Fresno/F.S.U. USDA | County=Fresno | Latitude=36.814 | Longitude=-119.732 | Status=Inactive | Date_Data_Refers_To=2023/02/08 00:00:00+00 | Comments=nan | Source=CIMIS, DWR | Last_Modified_Date=2023/02/09 00:00:00+00 | ID=1 | DWR_Regional_Office_=SCRO | Elevation=340 | Connect=1982/06/07 00:00:00+00 | Disconnect=9/25/1988 | Last_Modified_By=AU, GDSS
+Exemple 2 : X=-120.112905999817 | Y=36.3362220000584 | OBJECTID=2 | Name=Five Points   | County=Fresno | Latitude=36.336222 | Longitude=-120.112906 | Status=Active | Date_Data_Refers_To=2023/02/08 00:00:00+00 | Comments=nan | Source=CIMIS, DWR | Last_Modified_Date=2023/02/09 00:00:00+00 | ID=2 | DWR_Regional_Office_=SCRO | Elevation=285 | Connect=1982/06/07 00:00:00+00 | Disconnect=Active | Last_Modified_By=AU, GDSS
+   station          -> (non trouve)
+   nom              -> Name
+   comte            -> County
+   latitude         -> Latitude
+   longitude        -> Longitude
+
+## crop_mapping : fichiers du dossier : i15_Crop_Mapping_2024_Provisional.cpg, i15_Crop_Mapping_2024_Provisional.dbf, i15_Crop_Mapping_2024_Provisional.prj, i15_Crop_Mapping_2024_Provisional.sbn, i15_Crop_Mapping_2024_Provisional.sbx, i15_Crop_Mapping_2024_Provisional.shp, i15_Crop_Mapping_2024_Provisional.shp.xml, i15_Crop_Mapping_2024_Provisional.shx
+## crop_mapping (attributs du shapefile, 456216 polygones) : 56 colonnes
+Colonnes : DataStatus, UniqueID, DWR_REVISE, SYMB_CLASS, MULTIUSE, CLASS1, SUBCLASS1, SPECOND1, IRR_TYP1PA, IRR_TYP1PB, PCNT1, CLASS2, SUBCLASS2, SPECOND2, IRR_TYP2PA, IRR_TYP2PB, PCNT2, CLASS3, SUBCLASS3, SPECOND3, IRR_TYP3PA, IRR_TYP3PB, PCNT3, CLASS4, SUBCLASS4, SPECOND4, IRR_TYP4PA, IRR_TYP4PB, PCNT4, UCF_ATT, YR_PLANTED, SEN_CROP, ADOY_SEN, CROPTYP1, CTYP1_NOTE, ADOY1, CROPTYP2, CTYP2_NOTE, ADOY2, CROPTYP3, CTYP3_NOTE, ADOY3, CROPTYP4, CTYP4_NOTE, ADOY4, EMRG_CROP, ADOY_EMRG, REGION, ACRES, COUNTY, HYDRO_RGN, LIQ_REPORT, MAIN_CROP, MAIN_CROP_, Shape_Leng, Shape_Area
+Exemple 1 : DataStatus=Provisional | UniqueID=5435852 | DWR_REVISE=None | SYMB_CLASS=P | MULTIUSE=S | CLASS1=** | SUBCLASS1=** | SPECOND1=* | IRR_TYP1PA=* | IRR_TYP1PB=* | PCNT1=** | CLASS2=P | SUBCLASS2=3 | SPECOND2=* | IRR_TYP2PA=* | IRR_TYP2PB=* | PCNT2=00 | CLASS3=** | SUBCLASS3=** | SPECOND3=* | IRR_TYP3PA=* | IRR_TYP3PB=* | PCNT3=** | CLASS4=** | SUBCLASS4=** | SPECOND4=* | IRR_TYP4PA=* | IRR_TYP4PB=* | PCNT4=** | UCF_ATT=S********* P 3***00****************** | YR_PLANTED=0 | SEN_CROP=**** | ADOY_SEN=0.0 | CROPTYP1=**** | CTYP1_NOTE=**** | ADOY1=0.0 | CROPTYP2=P3 | CTYP2_NOTE=**** | ADOY2=0.0 | CROPTYP3=**** | CTYP3_NOTE=**** | ADOY3=0.0 | CROPTYP4=**** | CTYP4_NOTE=**** | ADOY4=0.0 | EMRG_CROP=**** | ADOY_EMRG=0.0 | REGION=SCRO | ACRES=3.46943986259 | COUNTY=Tulare | HYDRO_RGN=Tulare Lake | LIQ_REPORT=P3   **** **** **** | MAIN_CROP=P3 | MAIN_CROP_=0.0 | Shape_Leng=0.00524757258067 | Shape_Area=1.41210630479e-06
+Exemple 2 : DataStatus=Provisional | UniqueID=5439437 | DWR_REVISE=None | SYMB_CLASS=D | MULTIUSE=S | CLASS1=** | SUBCLASS1=** | SPECOND1=* | IRR_TYP1PA=* | IRR_TYP1PB=* | PCNT1=** | CLASS2=D | SUBCLASS2=3 | SPECOND2=* | IRR_TYP2PA=* | IRR_TYP2PB=* | PCNT2=00 | CLASS3=** | SUBCLASS3=** | SPECOND3=* | IRR_TYP3PA=* | IRR_TYP3PB=* | PCNT3=** | CLASS4=** | SUBCLASS4=** | SPECOND4=* | IRR_TYP4PA=* | IRR_TYP4PB=* | PCNT4=** | UCF_ATT=S********* D 3***00****************** | YR_PLANTED=2020 | SEN_CROP=**** | ADOY_SEN=0.0 | CROPTYP1=**** | CTYP1_NOTE=**** | ADOY1=0.0 | CROPTYP2=D3 | CTYP2_NOTE=**** | ADOY2=0.0 | CROPTYP3=**** | CTYP3_NOTE=**** | ADOY3=0.0 | CROPTYP4=**** | CTYP4_NOTE=**** | ADOY4=0.0 | EMRG_CROP=**** | ADOY_EMRG=0.0 | REGION=SCRO | ACRES=20.6387352285 | COUNTY=Tulare | HYDRO_RGN=Tulare Lake | LIQ_REPORT=D3   **** **** **** | MAIN_CROP=D3 | MAIN_CROP_=0.0 | Shape_Leng=0.0126772739288 | Shape_Area=8.40003210588e-06
+   comte            -> COUNTY
+   surface          -> ACRES
+   culture          -> MAIN_CROP
+   id               -> UniqueID

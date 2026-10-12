@@ -1,0 +1,42 @@
+# Correspondance entre champs logiques et noms de colonnes des sources.
+# Les noms sont compares sans casse ni ponctuation. Un alias qui commence par "~"
+# signifie "contient". Si une colonne obligatoire n'est pas trouvee, le programme
+# s'arrete en listant les colonnes reelles : il suffit d'ajouter l'alias ici.
+water_rights:
+  annee:            [year, reportyear, reportingyear, annualreportyear, reportedyear, reportingperiodyear]
+  droit_id:         [waterrightid, wrid, applicationid, applicationnumber, waterrightnumber, appid]
+  exploitant:       [primaryowner, ownername, primaryownername, waterrightholder, holdername, owner, rightholder, "~primaryowner", "~ownername", "~holder"]
+  comte:            [county, countyname, podcounty, countyofuse, "~county"]
+  culture:          [croptype, crop, cropname, primarycrop, "~croptype"]
+  surface:          [areairrigated, irrigatedarea, acresirrigated, areairrigatedacres, "~areairrigated", "~acresirrigated"]
+  source:           [sourcename, watersource, source, sourceofwater, sourcetype, "~sourcename"]
+  type_droit:       [waterrighttype, righttype, wrtype, "~waterrighttype"]
+  volume_autorise:  [facevalueamount, facevalue, authorizedvolume, maximumamount, "~facevalue"]
+  volume_declare:   [totalwaterused, totalwateruse, wateruseamount, annualwateruse, totalusedacft, "~totalwaterus", "~totalused"]
+  methode:          [primaryirrigmethod, irrigationmethod, primaryirrigationmethod, "~irrigmethod"]
+  unite_volume:     [facevalueunit, "~facevalueunit"]
+  irrigation_flag:  [irrigation]
+  revision_attr:    [revisionattribute]
+et_comte:
+  comte:            [county, countyname, name, "~county"]
+  annee:            [year, annee]
+  mois:             [month, mois]
+  date:             [yearmonth, date, monthdate, period, time, timestamp, startdate]
+  surface:          [maxmaskareaacres, "~maskarea"]      # surface agricole (masque) du comte
+et_bassin:
+  bassin:           [basinsubb, basin, basinname, groundwaterbasin, basinsubbasinname, subbasinname, "~basinname", "~basin"]
+  code_bassin:      [basinnumber, basincode, basinid, subbasinnumber, basinsubbasinnumber, "~basinnum", "~basincode"]
+  annee:            [year, annee]
+  mois:             [month, mois]
+  date:             [date, monthdate, period, time, timestamp, startdate]
+crop_mapping:              # attributs de la couche SIG "Statewide Crop Mapping" (shapefile)
+  comte:            [county, countyname, cntyname, "~county"]
+  surface:          [acres, acreage, areaacres, "~acres"]
+  culture:          [maincrop, cropname, crop, crop2024, croptype, cropclass, class1, "~crop", "~class"]
+  id:               [uniqueid, objectid, polyid, fid, id]
+cimis_stations:            # liste des stations CIMIS (informatif)
+  station:          [stationid, stnid, station, id, objectid, "~stationid", "~stnid"]
+  nom:              [name, stationname, "~name"]
+  comte:            [county, "~county"]
+  latitude:         [latitude, lat, "~latitude"]
+  longitude:        [longitude, lon, long, "~longitude"]

@@ -1,0 +1,83 @@
+# Parametres du projet BI Agriculture Intelligente
+schema: dwh
+
+periode:
+  declarations_annee_min: 2019      # fenetre d'analyse des declarations (rapport de cadrage)
+  declarations_annee_max: 2024
+  declarations_exiger_volume: false  # true = ecarter les declarations sans volume autorise
+  meteo_debut: "2020-01-01"          # 5 ans -> 1 827 jours x 4 vallees = 7 308 lignes
+  meteo_fin: "2024-12-31"
+  dim_temps_debut: "2003-01-01"      # ET satellite depuis 2003
+  dim_temps_fin: "2027-12-31"   # inclut l horizon de prevision (12 mois apres la derniere ET)
+
+# Noms des fichiers dans data/raw/ (adapter si vous les avez renommes)
+fichiers:
+  water_rights: water-rights-irrigation-water-use-annual-report.csv
+  et_bassin: gw_basin_ag_mask_open_data.csv
+  et_comte: et_comte.csv                       # telecharge par `python run.py extract` s'il est absent
+  cimis_stations: i04_CIMIS_Weather_Stations.csv
+  crop_mapping_dossier: i15_crop_mapping_2024_provisional
+
+ckan:
+  base_url: https://data.ca.gov
+  ressources:
+    water_rights: 7b80b319-ff45-4d78-b1ed-42d01c5d7754   # Water Rights Irrigation Use Annual Reports
+    et_comte: d21e60f9-ca4d-4e72-8aa9-ea3a721ff154       # Agricultural ET in counties
+    et_bassin: f4e22b5f-9fe1-4a1b-9de9-28cdec3f6598      # Agricultural ET in groundwater basins
+
+open_meteo:
+  url: https://archive-api.open-meteo.com/v1/archive
+  timezone: America/Los_Angeles
+
+# 4 vallees du district : un point meteo par vallee, rattache a un comte de reference
+vallees:
+  - {nom: "San Joaquin", comte_ref: "Fresno",     lat: 36.74, lon: -119.79}
+  - {nom: "Salinas",     comte_ref: "Monterey",   lat: 36.68, lon: -121.66}
+  - {nom: "Imperial",    comte_ref: "Imperial",   lat: 32.85, lon: -115.57}
+  - {nom: "Sacramento",  comte_ref: "Sacramento", lat: 38.58, lon: -121.49}
+
+# Rattachement comte -> vallee (hypothese du groupe, modifiable)
+comtes_par_vallee:
+  "San Joaquin": [Fresno, Kern, Kings, Madera, Merced, "San Joaquin", Stanislaus, Tulare]
+  "Salinas": [Monterey, "San Benito"]
+  "Imperial": [Imperial]
+  "Sacramento": [Butte, Colusa, Glenn, Sacramento, Shasta, Solano, Sutter, Tehama, Yolo, Yuba]
+
+# Champs obligatoires d'une declaration (calcul du taux de completude)
+champs_attendus: [comte, culture, surface, source, volume_autorise, exploitant]
+
+# Famille de culture : premier mot-cle trouve (insensible a la casse)
+familles_culture:
+  Vigne: [grape, vine, vineyard]
+  Fourrage: [pasture, alfalfa, hay, forage, clover]
+  "Fruits à coque": [almond, walnut, pistachio, pecan, nut]
+  Riz: [rice]
+  Agrumes: [citrus, orange, lemon, grapefruit, mandarin]
+  Légumes: [vegetable, tomato, lettuce, onion, garlic, melon, pepper, truck]
+  "Fruits (vergers)": [peach, plum, apple, cherry, pear, apricot, olive, fig, orchard, deciduous, subtropical, prune, kiwi, date]
+  "Grandes cultures": [corn, wheat, cotton, grain, bean, sugar, field, safflower, sorghum, oat, barley]
+  Autre: [other, miscellaneous, unknown]
+
+# Mots-cles de la source d'eau -> categorie
+categories_source:
+  Souterraine: [well, ground, aquifer, pump, underground]
+  Surface: [creek, river, stream, spring, lake, reservoir, canal, ditch, slough, surface, pond, delta, bay, drain, channel, wash, run]
+
+capteurs:
+  nombre: 200
+  graine: 42
+  taux_pannes: 0.004       # probabilite de debut de panne par capteur et par jour
+  taux_derives: 0.002      # probabilite de debut de derive par capteur et par jour
+
+ml:
+  jours_test_mois: 24      # validation sur les 24 derniers mois
+  horizon_mois: 12
+  contamination_anomalies: 0.02
+  k_min: 2
+  k_max: 8
+  graine: 42
+
+parcelles_sig:
+  par_vallee: 50            # parcelles reelles tirees au hasard par vallee (50 x 4 = 200)
+  surface_min_acres: 15
+  surface_max_acres: 400

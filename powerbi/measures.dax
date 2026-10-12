@@ -1,0 +1,100 @@
+// =====================================================================
+//  Mesures DAX - BI Agriculture Intelligente
+//  Noms de tables = noms PostgreSQL du schema dwh. A appliquer dans Power BI Desktop.
+//  Table de mesures conseillee : "_Mesures"
+// =====================================================================
+
+// ---------------------------- Distribution de l'eau (Directeur general)
+Volume total distribué (ac-ft) = SUM ( fait_declaration_irrigation[volume_autorise_acft] )
+
+Surface irriguée (acres) = SUM ( fait_declaration_irrigation[surface_irriguee_acres] )
+
+Volume par acre desservi = DIVIDE ( [Volume total distribué (ac-ft)], [Surface irriguée (acres)] )
+
+Volume année précédente (ac-ft) =
+CALCULATE (
+    [Volume total distribué (ac-ft)],
+    FILTER ( ALL ( dim_temps[annee] ), dim_temps[annee] = MAX ( dim_temps[annee] ) - 1 )
+)
+
+Évolution annuelle du volume = DIVIDE ( [Volume total distribué (ac-ft)] - [Volume année précédente (ac-ft)], [Volume année précédente (ac-ft)] )
+
+Couverture du district =
+DIVIDE (
+    [Surface irriguée (acres)],
+    SUMX ( VALUES ( dim_comte[sk_comte] ), CALCULATE ( MAX ( dim_comte[surface_agricole_acres] ) ) )
+)
+
+// ---------------------------- Efficience hydrique (Responsable ressources en eau)
+ET mesurée (ac-ft) = SUM ( fait_et_mensuelle_comte[et_moyenne_acft] )
+
+// A lire au grain ANNEE (les declarations sont rattachees au 1er janvier)
+Écart consommation réelle / autorisé =
+DIVIDE ( [ET mesurée (ac-ft)] - [Volume total distribué (ac-ft)], [Volume total distribué (ac-ft)] )
+
+Déficit hydrique climatique (mm) = SUM ( fait_meteo_jour[et0_mm] ) - SUM ( fait_meteo_jour[precipitations_mm] )
+
+Part de la demande couverte par la pluie = DIVIDE ( SUM ( fait_meteo_jour[precipitations_mm] ), SUM ( fait_meteo_jour[et0_mm] ) )
+
+// Approximation : l'ET est mesuree par comte, pas par culture
+Efficience par culture (ac-ft / acre) = DIVIDE ( [ET mesurée (ac-ft)], [Surface irriguée (acres)] )
+
+Prévision de demande à 12 mois (ac-ft) =
+CALCULATE ( SUM ( fait_prediction[valeur_predite] ), fait_prediction[type_prediction] = "prevision_12_mois" )
+
+Prévision - borne basse = CALCULATE ( SUM ( fait_prediction[borne_basse] ), fait_prediction[type_prediction] = "prevision_12_mois" )
+Prévision - borne haute = CALCULATE ( SUM ( fait_prediction[borne_haute] ), fait_prediction[type_prediction] = "prevision_12_mois" )
+
+Demande prédite (validation) =
+CALCULATE ( SUM ( fait_prediction[valeur_predite] ), fait_prediction[type_prediction] = "demande_mensuelle" )
+
+Demande observée (validation) =
+CALCULATE ( SUM ( fait_prediction[valeur_observee] ), fait_prediction[type_prediction] = "demande_mensuelle" )
+
+// ---------------------------- Qualité et conformité (Responsable conformité)
+Taux de complétude des déclarations =
+DIVIDE ( SUM ( fait_declaration_irrigation[nb_champs_renseignes] ), SUM ( fait_declaration_irrigation[nb_champs_attendus] ) )
+
+Nombre de déclarations = SUM ( fait_declaration_irrigation[nb_declarations] )
+
+Déclarations sans culture =
+CALCULATE ( SUM ( fait_declaration_irrigation[nb_declarations] ), fait_declaration_irrigation[indicateur_culture_renseignee] = 0 )
+
+Part des déclarations sans culture = DIVIDE ( [Déclarations sans culture], [Nombre de déclarations] )
+
+Déclarations incohérentes détectées =
+CALCULATE ( SUM ( fait_prediction[indicateur_anomalie] ), fait_prediction[type_prediction] = "anomalie_declaration" )
+
+Taux de déclarations incohérentes = DIVIDE ( [Déclarations incohérentes détectées], [Nombre de déclarations] )
+
+Incertitude de la mesure satellite =
+DIVIDE ( AVERAGE ( fait_et_mensuelle_comte[et_ecart_type_modeles_acft] ), AVERAGE ( fait_et_mensuelle_comte[et_moyenne_acft] ) )
+
+Capteurs actifs =
+CALCULATE ( DISTINCTCOUNT ( fait_releve_capteur[sk_capteur] ), fait_releve_capteur[indicateur_capteur_actif] = 1 )
+
+Alertes capteurs = SUM ( fait_releve_capteur[indicateur_alerte] )
+
+Disponibilité du parc de capteurs = DIVIDE ( SUM ( fait_releve_capteur[indicateur_capteur_actif] ), COUNTROWS ( fait_releve_capteur ) )
+
+// ---------------------------- Adhérents et tarification (Responsable adhérents)
+Exploitants actifs =
+CALCULATE ( DISTINCTCOUNT ( fait_declaration_irrigation[sk_exploitant] ), fait_declaration_irrigation[sk_exploitant] <> -1 )
+
+Volume moyen par exploitant (ac-ft) = DIVIDE ( [Volume total distribué (ac-ft)], [Exploitants actifs] )
+
+Part du volume par source d'eau =
+DIVIDE ( [Volume total distribué (ac-ft)], CALCULATE ( [Volume total distribué (ac-ft)], ALL ( dim_source_eau ) ) )
+
+Part du volume des 10 % plus gros exploitants =
+VAR T = ADDCOLUMNS ( VALUES ( dim_exploitant[sk_exploitant] ), "Vol", [Volume total distribué (ac-ft)] )
+VAR N = COUNTROWS ( T )
+VAR K = MAX ( 1, ROUNDUP ( N * 0.1, 0 ) )
+VAR TopK = TOPN ( K, T, [Vol], DESC )
+RETURN DIVIDE ( SUMX ( TopK, [Vol] ), SUMX ( T, [Vol] ) )
+
+Exploitants du segment =
+CALCULATE ( DISTINCTCOUNT ( fait_prediction[sk_exploitant] ), fait_prediction[type_prediction] = "segment_exploitant" )
+
+// Simulation tarifaire : parametre What-If "Tarif (USD / acre-pied)" a creer dans Power BI
+// Recette simulée = [Volume total distribué (ac-ft)] * 'Tarif (USD / acre-pied)'[Valeur Tarif (USD / acre-pied)]

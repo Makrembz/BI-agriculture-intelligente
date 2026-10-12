@@ -1,0 +1,14 @@
+pandas>=2.1
+numpy>=1.26
+scikit-learn>=1.4
+statsmodels>=0.14
+xgboost>=2.0
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+requests>=2.31
+pyyaml>=6.0
+geopandas>=0.14
+pyogrio>=0.7
+python-dotenv>=1.0
+# Optionnel : prevision Prophet (le pipeline fonctionne sans)
+# prophet>=1.1

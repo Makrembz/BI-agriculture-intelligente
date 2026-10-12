@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+data/raw/*
+data/staging/*
+data/models/*
+!data/*/.gitkeep
