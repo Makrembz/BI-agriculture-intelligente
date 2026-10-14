@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "bi_agriculture_dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9fe85bb0-b950-4ba7-9d6a-9abf41c1b36c"
+  }
+}

@@ -1,0 +1,67 @@
+table 'Relevés capteurs'
+	lineageTag: 098e3a10-7260-4265-86f3-4def3cfcd2b1
+
+	column sk_temps
+		dataType: int64
+		isHidden
+		lineageTag: 6322f66f-ca74-451e-a5ab-0dadb0c6602e
+		sourceColumn: sk_temps
+
+	column sk_capteur
+		dataType: int64
+		isHidden
+		lineageTag: daecbc10-c733-43af-a79b-02fffe3d4171
+		sourceColumn: sk_capteur
+
+	column sk_parcelle
+		dataType: int64
+		isHidden
+		lineageTag: 8a096143-d054-401d-86a7-bcf1c8a8c91e
+		sourceColumn: sk_parcelle
+
+	column sk_comte
+		dataType: int64
+		isHidden
+		lineageTag: a754cc87-2832-45a5-b497-54de191a285e
+		sourceColumn: sk_comte
+
+	column humidite_sol_m3m3
+		dataType: double
+		isHidden
+		lineageTag: 51f5589a-8199-488a-971e-43c0f74862aa
+		sourceColumn: humidite_sol_m3m3
+
+	column temperature_sol_c
+		dataType: double
+		isHidden
+		lineageTag: c18ab83a-afa2-4910-81f5-cf83b9f64057
+		sourceColumn: temperature_sol_c
+
+	column ph
+		dataType: double
+		isHidden
+		lineageTag: a04fccfc-2c98-4f70-aacd-42128581fecd
+		sourceColumn: ph
+
+	column conductivite_dsm
+		dataType: double
+		isHidden
+		lineageTag: 1758848b-3377-4419-a070-bd3a1634ec70
+		sourceColumn: conductivite_dsm
+
+	column indicateur_alerte
+		dataType: int64
+		isHidden
+		lineageTag: e22b011c-8f9a-4027-a9b3-0ce0987c2b44
+		sourceColumn: indicateur_alerte
+
+	column indicateur_capteur_actif
+		dataType: int64
+		isHidden
+		lineageTag: aceeb89c-3597-4da4-9a1f-5812970fe057
+		sourceColumn: indicateur_capteur_actif
+
+	partition 'Relevés capteurs' = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="fait_releve_capteur"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_temps", Int64.Type},{"sk_capteur", Int64.Type},{"sk_parcelle", Int64.Type},{"sk_comte", Int64.Type},{"humidite_sol_m3m3", type number},{"temperature_sol_c", type number},{"ph", type number},{"conductivite_dsm", type number},{"indicateur_alerte", Int64.Type},{"indicateur_capteur_actif", Int64.Type}}) in Typed
+

@@ -1,0 +1,60 @@
+table Comté
+	lineageTag: 80b02c71-5499-441e-9fb8-93dcf2698de7
+
+	column sk_comte
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: d465926f-0f17-4b99-9d79-1b64b3505fc2
+		sourceColumn: sk_comte
+
+	column code_comte
+		dataType: string
+		isHidden
+		lineageTag: 025f9817-effc-45c2-aa16-a5d892b4cc6c
+		sourceColumn: code_comte
+
+	column Comté
+		dataType: string
+		lineageTag: 6f2e21ac-fe5e-4118-b65b-5be69f9a9815
+		sourceColumn: nom_comte
+
+	column Vallée
+		dataType: string
+		lineageTag: f1c69ed3-293d-421a-b144-9d450f253fd7
+		sourceColumn: vallee_agricole
+
+	column 'Surface agricole (acres)'
+		dataType: double
+		formatString: #,0
+		lineageTag: 976a4fde-8725-4350-a169-f7d742962b81
+		summarizeBy: none
+		sourceColumn: surface_agricole_acres
+
+	column 'Latitude réf.'
+		dataType: double
+		isHidden
+		lineageTag: 63850a48-519a-4381-9acd-15875cc5b3bd
+		sourceColumn: latitude_ref
+
+	column 'Longitude réf.'
+		dataType: double
+		isHidden
+		lineageTag: 2b9fbe60-eb29-4e58-ab5c-ae656cf71472
+		sourceColumn: longitude_ref
+
+	hierarchy Territoire
+		lineageTag: 2237b00a-9a7f-4107-ba27-bb487272f02d
+
+		level Vallée
+			lineageTag: 216e7ed9-9799-4032-90a4-7d7b40aff4a9
+			column: Vallée
+
+		level Comté
+			lineageTag: 02abe250-f315-477e-8679-6712efcca9b5
+			column: Comté
+
+	partition Comté = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_comte"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_comte", Int64.Type},{"code_comte", type text},{"nom_comte", type text},{"vallee_agricole", type text},{"surface_agricole_acres", type number},{"latitude_ref", type number},{"longitude_ref", type number}}) in Typed
+

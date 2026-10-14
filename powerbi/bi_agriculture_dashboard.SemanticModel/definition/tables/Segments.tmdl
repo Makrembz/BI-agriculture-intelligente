@@ -1,0 +1,53 @@
+table Segments
+	lineageTag: a46c0788-1749-42c3-9b3e-e4b8e971298e
+
+	column Segment
+		dataType: int64
+		isKey
+		lineageTag: 90967192-ea4d-4ee2-94f9-b6d7e9e1fea3
+		summarizeBy: none
+		sourceColumn: numero_segment
+
+	column 'Libellé du segment'
+		dataType: string
+		lineageTag: ca8418e6-dc05-4053-b78e-4cabe77b39cb
+		sourceColumn: libelle_segment
+
+	column 'Nb exploitants'
+		dataType: int64
+		lineageTag: b7fe1043-8467-40a2-a451-a4e273c3776e
+		summarizeBy: none
+		sourceColumn: nb_exploitants
+
+	column 'Volume moyen (ac-ft)'
+		dataType: double
+		formatString: #,0
+		lineageTag: 92692edd-62f7-43a2-a3ce-fb875afbe8b0
+		summarizeBy: none
+		sourceColumn: volume_moyen_acft
+
+	column 'Surface moyenne (acres)'
+		dataType: double
+		formatString: #,0
+		lineageTag: 8eee2a8e-8ea6-410c-a63c-f75c47b6e5db
+		summarizeBy: none
+		sourceColumn: surface_moyenne_acres
+
+	column 'Part eau souterraine'
+		dataType: double
+		formatString: 0%
+		lineageTag: be251d39-5c36-46a3-bafa-d531ccc06ddc
+		summarizeBy: none
+		sourceColumn: part_eau_souterraine
+
+	column 'Nb cultures moyen'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 7f01adca-8145-4205-8ac1-9285f78d863f
+		summarizeBy: none
+		sourceColumn: nb_cultures_moyen
+
+	partition Segments = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="ref_segment"]}[Data], Typed = Table.TransformColumnTypes(T, {{"numero_segment", Int64.Type},{"libelle_segment", type text},{"nb_exploitants", Int64.Type},{"volume_moyen_acft", type number},{"surface_moyenne_acres", type number},{"part_eau_souterraine", type number},{"nb_cultures_moyen", type number}}) in Typed
+

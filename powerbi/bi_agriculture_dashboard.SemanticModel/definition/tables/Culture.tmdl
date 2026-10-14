@@ -1,0 +1,46 @@
+table Culture
+	lineageTag: 1df7918d-885c-4ce4-a07c-f07017368a74
+
+	column sk_culture
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: d7b471dc-d3c6-42c6-a2dd-7ac54275a50c
+		sourceColumn: sk_culture
+
+	column code_culture
+		dataType: string
+		isHidden
+		lineageTag: 8ebd518a-6a02-4bc7-8bfe-0858da188d38
+		sourceColumn: code_culture
+
+	column Culture
+		dataType: string
+		lineageTag: 85cfdbf8-362a-421c-895b-26d74bc1801e
+		sourceColumn: nom_culture
+
+	column 'Famille de culture'
+		dataType: string
+		lineageTag: b62e2a85-874e-491a-bfb0-aa578867710b
+		sourceColumn: famille_culture
+
+	column 'Culture renseignée'
+		dataType: boolean
+		lineageTag: 1b91abb3-57c7-4087-a2b5-2cecd820233c
+		sourceColumn: est_renseignee
+
+	hierarchy 'Familles de cultures'
+		lineageTag: db6afaed-19bc-48eb-9b7e-8facc5257e4a
+
+		level 'Famille de culture'
+			lineageTag: 61be5184-5551-4ab3-93e0-1d3632d8022e
+			column: 'Famille de culture'
+
+		level Culture
+			lineageTag: 1687346a-7230-46b7-90bb-cbea3a1a2ee0
+			column: Culture
+
+	partition Culture = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_culture"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_culture", Int64.Type},{"code_culture", type text},{"nom_culture", type text},{"famille_culture", type text},{"est_renseignee", type logical}}) in Typed
+

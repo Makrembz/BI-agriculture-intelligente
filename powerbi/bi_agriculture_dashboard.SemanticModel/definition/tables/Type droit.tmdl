@@ -1,0 +1,25 @@
+table 'Type droit'
+	lineageTag: 114636bf-7fcc-49d3-aa47-965327e857d3
+
+	column sk_type_droit
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 90ba4df4-58a2-4550-b9c8-b7ce604185c2
+		sourceColumn: sk_type_droit
+
+	column code_type_droit
+		dataType: string
+		isHidden
+		lineageTag: 08a8b860-e2b9-44f0-b37e-7d36fd6988f3
+		sourceColumn: code_type_droit
+
+	column 'Type de droit d''eau'
+		dataType: string
+		lineageTag: c1f22249-cffd-4b61-8851-d935549f6190
+		sourceColumn: libelle_type_droit
+
+	partition 'Type droit' = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_type_droit"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_type_droit", Int64.Type},{"code_type_droit", type text},{"libelle_type_droit", type text}}) in Typed
+

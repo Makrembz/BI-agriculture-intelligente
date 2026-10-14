@@ -1,0 +1,248 @@
+table _Mesures
+	lineageTag: 7d697ed4-d964-448d-9fce-5ced0587078a
+
+	measure 'Volume total distribué (ac-ft)' = SUM('Déclarations'[volume_autorise_acft])
+		formatString: #,0
+		displayFolder: 1 - Directeur général
+		lineageTag: e7e8beaf-d0bf-485e-a690-4a02b6d194f5
+
+	measure 'Surface irriguée (acres)' = VAR AnneeMax = MAXX(FILTER(VALUES('Temps'[Année]), CALCULATE(SUM('Déclarations'[surface_irriguee_acres])) > 0), 'Temps'[Année]) RETURN CALCULATE(SUM('Déclarations'[surface_irriguee_acres]), 'Temps'[Année] = AnneeMax)
+		formatString: #,0
+		displayFolder: 1 - Directeur général
+		lineageTag: 52ab3756-b7c7-456a-a881-c0829d90b842
+
+	measure 'Volume par acre desservi (ac-ft/acre)' = DIVIDE([Volume total distribué (ac-ft)], [Surface-années irriguées (acres)])
+		formatString: 0.00
+		displayFolder: 1 - Directeur général
+		lineageTag: 4613df5e-b893-42ca-98a6-097c93a7dcc4
+
+	measure 'Volume année précédente (ac-ft)' = CALCULATE([Volume total distribué (ac-ft)], FILTER(ALL('Temps'[Année]), 'Temps'[Année] = MAX('Temps'[Année]) - 1))
+		formatString: #,0
+		displayFolder: 1 - Directeur général
+		lineageTag: 7121b0b6-4109-498f-9d42-3138769a2b75
+
+	measure 'Évolution annuelle du volume' = DIVIDE([Volume total distribué (ac-ft)] - [Volume année précédente (ac-ft)], [Volume année précédente (ac-ft)])
+		formatString: 0.0%
+		displayFolder: 1 - Directeur général
+		lineageTag: cc012ce4-8857-4c25-ba33-e62115999dd8
+
+	measure 'Couverture du district' = DIVIDE([Surface irriguée (acres)], SUMX(FILTER(VALUES('Comté'[Comté]), [Surface irriguée (acres)] > 0), CALCULATE(MAX('Comté'[Surface agricole (acres)]))))
+		formatString: 0.0%
+		displayFolder: 1 - Directeur général
+		lineageTag: e9e748cd-9cff-4cfa-8881-aaf318c4c221
+
+	measure 'Nombre de déclarations' = SUM('Déclarations'[nb_declarations])
+		formatString: #,0
+		displayFolder: 1 - Directeur général
+		lineageTag: e5f87852-e013-48bf-acb6-ecb18fed2756
+
+	measure 'Nombre de comtés desservis' = CALCULATE(DISTINCTCOUNT('Déclarations'[sk_comte]), 'Déclarations'[sk_comte] <> -1)
+		formatString: #,0
+		displayFolder: 1 - Directeur général
+		lineageTag: 5e133f74-32c3-4d9f-afc6-336d671f8c4a
+
+	measure 'ET mesurée (ac-ft)' = SUM('ET comté'[et_moyenne_acft])
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: c0570319-fe71-4318-bcdc-74433fdf823c
+
+	measure 'ET bassin (ac-ft)' = SUM('ET bassin'[et_moyenne_acft])
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 9cbe43e4-ce48-410f-aea4-fdaea4a3384d
+
+	measure 'Écart consommation réelle / autorisé' = DIVIDE([ET mesurée - années déclarées (ac-ft)] - [Volume total distribué (ac-ft)], [Volume total distribué (ac-ft)])
+		formatString: 0.0%
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 307f2649-86d0-46ad-886b-9a1c36d5e15c
+
+	measure 'Précipitations (mm)' = SUM('Météo'[precipitations_mm])
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: a38897b0-2599-4294-8838-aa7065047287
+
+	measure 'ET0 (mm)' = SUM('Météo'[et0_mm])
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: d0aaef9f-7998-4265-b9e9-9f81cc066a17
+
+	measure 'Déficit hydrique climatique (mm)' = [ET0 (mm)] - [Précipitations (mm)]
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 662d5189-1b54-487b-8b38-b581a7a41e18
+
+	measure 'Part de la demande couverte par la pluie' = DIVIDE([Précipitations (mm)], [ET0 (mm)])
+		formatString: 0.0%
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 1d62c310-781a-4e08-b808-9575c9b5c926
+
+	measure 'Efficience par culture (ac-ft/acre)' = DIVIDE([ET mesurée - années déclarées (ac-ft)], [Surface-années irriguées (acres)])
+		formatString: 0.00
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 966095a7-cb19-4103-87c4-b194598cbc23
+
+	measure 'Température moyenne (°C)' = AVERAGE('Météo'[temperature_moy_c])
+		formatString: 0.0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 07a5be38-d3fb-4d95-9e70-1ee7ff2832fd
+
+	measure 'Prévision de demande à 12 mois (ac-ft)' = CALCULATE(SUM('Prédictions'[valeur_predite]), 'Prédictions'[Type de prédiction] = "prevision_12_mois")
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: b33140cf-51ed-4a9d-9d7d-7d1c835cbc15
+
+	measure 'Prévision - borne basse (ac-ft)' = CALCULATE(SUM('Prédictions'[borne_basse]), 'Prédictions'[Type de prédiction] = "prevision_12_mois")
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 86ca4922-c0c7-47d8-980a-c2d4b09e5966
+
+	measure 'Prévision - borne haute (ac-ft)' = CALCULATE(SUM('Prédictions'[borne_haute]), 'Prédictions'[Type de prédiction] = "prevision_12_mois")
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: ac2cdbce-2741-4c5e-8ead-2449dc8b6f43
+
+	measure 'Demande prédite - validation (ac-ft)' = CALCULATE(SUM('Prédictions'[valeur_predite]), 'Prédictions'[Type de prédiction] = "demande_mensuelle")
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: c5f96c37-b52e-4836-8c1e-39b84336d70f
+
+	measure 'Demande observée - validation (ac-ft)' = CALCULATE(SUM('Prédictions'[valeur_observee]), 'Prédictions'[Type de prédiction] = "demande_mensuelle")
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 8f088825-6562-47ce-a4bd-9d9cfb8f48ee
+
+	measure 'Erreur absolue moyenne - validation (ac-ft)' = CALCULATE(AVERAGE('Prédictions'[erreur_absolue]), 'Prédictions'[Type de prédiction] = "demande_mensuelle")
+		formatString: #,0
+		displayFolder: 2 - Ressources en eau
+		lineageTag: 941889c7-da93-48f7-99ad-d412636a60c5
+
+	measure 'Taux de complétude des déclarations' = DIVIDE(SUM('Déclarations'[nb_champs_renseignes]), SUM('Déclarations'[nb_champs_attendus]))
+		formatString: 0.0%
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 92631342-f1bb-43b8-abe6-42b5d20f7e72
+
+	measure 'Déclarations sans culture' = CALCULATE(SUM('Déclarations'[nb_declarations]), 'Déclarations'[indicateur_culture_renseignee] = 0)
+		formatString: #,0
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: a0d0f3b2-29dd-4db6-ab57-8f19efe55999
+
+	measure 'Part des déclarations sans culture' = DIVIDE([Déclarations sans culture], [Nombre de déclarations])
+		formatString: 0.0%
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: c7d9ce95-3c86-4b12-9c1d-5f2dc8a1fac5
+
+	measure 'Déclarations incohérentes détectées' = CALCULATE(SUM('Prédictions'[indicateur_anomalie]), 'Prédictions'[Type de prédiction] = "anomalie_declaration")
+		formatString: #,0
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: b9a440ca-78fa-4c91-ab43-928ed0342503
+
+	measure 'Taux de déclarations incohérentes' = DIVIDE([Déclarations incohérentes détectées], [Nombre de déclarations])
+		formatString: 0.0%
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: e858313f-c64b-4ccb-91d3-c0a151cd8a30
+
+	measure 'Score d''anomalie moyen' = CALCULATE(AVERAGE('Prédictions'[score_anomalie]), 'Prédictions'[Type de prédiction] = "anomalie_declaration")
+		formatString: 0.000
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 63581416-2e7a-4306-bedc-f92ca8b0262d
+
+	measure 'Incertitude de la mesure satellite' = DIVIDE(AVERAGE('ET comté'[et_ecart_type_modeles_acft]), AVERAGE('ET comté'[et_moyenne_acft]))
+		formatString: 0.0%
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: bebdc362-17ba-4e24-8724-47ac0cf71310
+
+	measure 'Nombre de capteurs' = DISTINCTCOUNT('Relevés capteurs'[sk_capteur])
+		formatString: #,0
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 7b352ca9-fb23-474c-ada7-ae35629de5b4
+
+	measure 'Capteurs actifs' = CALCULATE(DISTINCTCOUNT('Relevés capteurs'[sk_capteur]), 'Relevés capteurs'[indicateur_capteur_actif] = 1)
+		formatString: #,0
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 76b59e56-7566-42b3-863f-82766de66018
+
+	measure 'Alertes capteurs' = SUM('Relevés capteurs'[indicateur_alerte])
+		formatString: #,0
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 88bdd342-26bd-4085-b991-cf6629464122
+
+	measure 'Disponibilité du parc de capteurs' = DIVIDE(SUM('Relevés capteurs'[indicateur_capteur_actif]), COUNTROWS('Relevés capteurs'))
+		formatString: 0.0%
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 7251dad6-4ebc-45b8-9380-74c0a8f2cb8b
+
+	measure 'Humidité du sol moyenne (m³/m³)' = AVERAGE('Relevés capteurs'[humidite_sol_m3m3])
+		formatString: 0.000
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: b7b4e7ee-39fb-4d6a-bc33-beda60104c69
+
+	measure 'Température du sol moyenne (°C)' = AVERAGE('Relevés capteurs'[temperature_sol_c])
+		formatString: 0.0
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: 9e9c9cb4-a62b-40b1-87d0-c02ba6622384
+
+	measure 'pH moyen' = AVERAGE('Relevés capteurs'[ph])
+		formatString: 0.00
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: d722a5ab-cd44-4672-a40b-1ac22f775bb3
+
+	measure 'Conductivité moyenne (dS/m)' = AVERAGE('Relevés capteurs'[conductivite_dsm])
+		formatString: 0.00
+		displayFolder: 3 - Conformité et qualité
+		lineageTag: d8dc2db7-011e-4a4b-800e-cfff99ef7e14
+
+	measure 'Exploitants actifs' = CALCULATE(DISTINCTCOUNT('Déclarations'[sk_exploitant]), 'Déclarations'[sk_exploitant] <> -1)
+		formatString: #,0
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: 14788758-523f-4eab-b518-12869560593e
+
+	measure 'Volume moyen par exploitant (ac-ft)' = DIVIDE([Volume total distribué (ac-ft)], [Exploitants actifs])
+		formatString: #,0
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: 7a14c49f-777a-44f4-ba9c-b41863326b68
+
+	measure 'Part du volume par source d''eau' = DIVIDE([Volume total distribué (ac-ft)], CALCULATE([Volume total distribué (ac-ft)], ALL('Source eau')))
+		formatString: 0.0%
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: 0e6a2860-fe97-4e83-b9cd-ea9587fd336f
+
+	measure 'Part du volume des 10 % plus gros exploitants' = VAR T = ADDCOLUMNS(VALUES('Exploitant'[sk_exploitant]), "Vol", [Volume total distribué (ac-ft)]) VAR N = COUNTROWS(T) VAR K = MAX(1, ROUNDUP(N * 0.1, 0)) VAR TopK = TOPN(K, T, [Vol], DESC) RETURN DIVIDE(SUMX(TopK, [Vol]), SUMX(T, [Vol]))
+		formatString: 0.0%
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: 9ec27aaa-9c46-4a43-a690-95467407a9a2
+
+	measure 'Exploitants du segment' = CALCULATE(DISTINCTCOUNT('Prédictions'[sk_exploitant]), 'Prédictions'[Type de prédiction] = "segment_exploitant")
+		formatString: #,0
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: 8de73314-5a68-4806-940a-dd0ecd020329
+
+	measure 'Tarif sélectionné (USD/ac-ft)' = SELECTEDVALUE('Tarif'[Tarif (USD par ac-ft)], 100)
+		formatString: #,0
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: aff829c7-4dde-4ef2-8bee-f0cb02018da9
+
+	measure 'Recette simulée (USD)' = [Volume total distribué (ac-ft)] * [Tarif sélectionné (USD/ac-ft)]
+		formatString: #,0
+		displayFolder: 4 - Adhérents et tarification
+		lineageTag: a348d1ca-35db-4847-864b-549909b451f4
+
+	measure 'Surface-années irriguées (acres)' = SUM('Déclarations'[surface_irriguee_acres])
+		formatString: #,0
+		displayFolder: 0 - Techniques
+		lineageTag: 62c771f9-c0ce-4d47-8a03-18899e5229ed
+
+	measure 'ET mesurée - années déclarées (ac-ft)' = SUMX(FILTER(VALUES('Temps'[Année]), [Surface-années irriguées (acres)] > 0), CALCULATE(SUM('ET comté'[et_moyenne_acft])))
+		formatString: #,0
+		displayFolder: 0 - Techniques
+		lineageTag: da1188f8-eda6-4dd4-acfe-8a2d0e86eeb2
+
+	column 'Colonne technique'
+		isHidden
+		lineageTag: 66c741c3-d058-45c8-84a1-f5ab4c74c22d
+		isNameInferred
+		sourceColumn: [Colonne technique]
+
+	partition _Mesures = calculated
+		mode: import
+		source = ROW("Colonne technique", 1)
+

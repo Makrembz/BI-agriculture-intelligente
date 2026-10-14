@@ -1,0 +1,110 @@
+table Prédictions
+	lineageTag: 8cb95de4-0a90-42b9-9460-3b5f2e7e98ce
+
+	column id_prediction
+		dataType: int64
+		isHidden
+		lineageTag: 219b62ad-641f-4a01-8a7a-895433e935db
+		sourceColumn: id_prediction
+
+	column sk_temps
+		dataType: int64
+		isHidden
+		lineageTag: b752ded0-ac0f-4dd2-a9ac-db9c8671625c
+		sourceColumn: sk_temps
+
+	column sk_comte
+		dataType: int64
+		isHidden
+		lineageTag: 2b93d00b-fb3d-4362-be0f-6e2114144a31
+		sourceColumn: sk_comte
+
+	column sk_exploitant
+		dataType: int64
+		isHidden
+		lineageTag: 5cd9e939-d468-4418-8fbd-8eff9cc2a31f
+		sourceColumn: sk_exploitant
+
+	column Modèle
+		dataType: string
+		lineageTag: 36b87246-4c79-4cd2-84fb-9eba25740d36
+		sourceColumn: nom_modele
+
+	column 'Version du modèle'
+		dataType: string
+		lineageTag: 4a18c0a7-7379-4071-ab05-a92d369be546
+		sourceColumn: version_modele
+
+	column 'Type de prédiction'
+		dataType: string
+		lineageTag: 545a97a2-d142-4b63-bf54-9112122ed0fd
+		sourceColumn: type_prediction
+
+	column 'Date de calcul'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: e2b3f227-04fa-44a0-82fc-51c44c1a4276
+		sourceColumn: date_calcul
+
+	column 'N° déclaration (anomalie)'
+		dataType: string
+		lineageTag: 84254b53-2c3e-4856-819f-f014874430ba
+		sourceColumn: id_declaration
+
+	column 'Motif d''anomalie'
+		dataType: string
+		lineageTag: 38733aa1-1d62-4188-a86a-03a85a565a37
+		sourceColumn: motif_anomalie
+
+	column valeur_predite
+		dataType: double
+		isHidden
+		lineageTag: 3067f9aa-7225-4b92-b89d-5eff07aa6e40
+		sourceColumn: valeur_predite
+
+	column borne_basse
+		dataType: double
+		isHidden
+		lineageTag: aec4eab5-6b9d-4154-ac39-3be6fc2e7488
+		sourceColumn: borne_basse
+
+	column borne_haute
+		dataType: double
+		isHidden
+		lineageTag: 303b3073-4141-4fba-a49b-a4630b79c0c8
+		sourceColumn: borne_haute
+
+	column valeur_observee
+		dataType: double
+		isHidden
+		lineageTag: 4759bc6f-2c7a-4692-9321-7eb3765d4fbb
+		sourceColumn: valeur_observee
+
+	column erreur_absolue
+		dataType: double
+		isHidden
+		lineageTag: 6e745dd3-0879-434f-b79f-6215285111d3
+		sourceColumn: erreur_absolue
+
+	column score_anomalie
+		dataType: double
+		isHidden
+		lineageTag: 08ab67f8-dd03-4781-8eaa-a6f38ce4dc17
+		sourceColumn: score_anomalie
+
+	column indicateur_anomalie
+		dataType: int64
+		isHidden
+		lineageTag: b16878e6-aca7-47f8-ab7f-fd9d7ff53bc8
+		sourceColumn: indicateur_anomalie
+
+	column Segment
+		dataType: int64
+		lineageTag: 44513f73-73c5-4c70-b34f-317f574ffcd1
+		summarizeBy: none
+		sourceColumn: numero_segment
+
+	partition Prédictions = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="fait_prediction"]}[Data], Typed = Table.TransformColumnTypes(T, {{"id_prediction", Int64.Type},{"sk_temps", Int64.Type},{"sk_comte", Int64.Type},{"sk_exploitant", Int64.Type},{"nom_modele", type text},{"version_modele", type text},{"type_prediction", type text},{"date_calcul", type datetime},{"id_declaration", type text},{"motif_anomalie", type text},{"valeur_predite", type number},{"borne_basse", type number},{"borne_haute", type number},{"valeur_observee", type number},{"erreur_absolue", type number},{"score_anomalie", type number},{"indicateur_anomalie", Int64.Type},{"numero_segment", Int64.Type}}) in Typed
+

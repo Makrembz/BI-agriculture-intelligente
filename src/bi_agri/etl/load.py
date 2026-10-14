@@ -231,6 +231,9 @@ def prepare_water_rights():
     d = d[keep]
     log_reject(fait, "pas d'irrigation declaree", (~d["irrigue"]).sum())
     d = d[d["irrigue"]]
+    sans_surface = ~(d["surface"] > 0)      # ex. fournisseurs en gros (DWR, Bureau of Reclamation) : volumes enormes, aucune surface
+    log_reject(fait, "irrigation declaree sans surface irriguee (fournisseurs d'eau en gros)", sans_surface.sum())
+    d = d[~sans_surface]
     if p.get("declarations_exiger_volume"):
         has_vol = d["vol_aut"].notna() | d["vol_dec"].notna()
         log_reject(fait, "aucun volume renseigne", (~has_vol).sum())

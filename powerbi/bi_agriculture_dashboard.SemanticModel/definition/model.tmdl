@@ -1,0 +1,35 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-FR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table Temps
+ref table Comté
+ref table Exploitant
+ref table Culture
+ref table 'Source eau'
+ref table 'Type droit'
+ref table Bassin
+ref table Parcelle
+ref table Capteur
+ref table Déclarations
+ref table 'ET comté'
+ref table 'ET bassin'
+ref table Météo
+ref table 'Relevés capteurs'
+ref table Prédictions
+ref table 'Évaluation modèles'
+ref table Segments
+ref table _Mesures
+ref table Tarif
+
+ref cultureInfo en-US
+

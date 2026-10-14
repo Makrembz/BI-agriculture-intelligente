@@ -1,0 +1,80 @@
+relationship Déclarations_sk_temps_Temps_sk_temps
+	fromColumn: Déclarations.sk_temps
+	toColumn: Temps.sk_temps
+
+relationship 'ET comté_sk_temps_Temps_sk_temps'
+	fromColumn: 'ET comté'.sk_temps
+	toColumn: Temps.sk_temps
+
+relationship 'ET bassin_sk_temps_Temps_sk_temps'
+	fromColumn: 'ET bassin'.sk_temps
+	toColumn: Temps.sk_temps
+
+relationship Météo_sk_temps_Temps_sk_temps
+	fromColumn: Météo.sk_temps
+	toColumn: Temps.sk_temps
+
+relationship 'Relevés capteurs_sk_temps_Temps_sk_temps'
+	fromColumn: 'Relevés capteurs'.sk_temps
+	toColumn: Temps.sk_temps
+
+relationship Prédictions_sk_temps_Temps_sk_temps
+	fromColumn: Prédictions.sk_temps
+	toColumn: Temps.sk_temps
+
+relationship Déclarations_sk_comte_Comté_sk_comte
+	fromColumn: Déclarations.sk_comte
+	toColumn: Comté.sk_comte
+
+relationship 'ET comté_sk_comte_Comté_sk_comte'
+	fromColumn: 'ET comté'.sk_comte
+	toColumn: Comté.sk_comte
+
+relationship Météo_sk_comte_Comté_sk_comte
+	fromColumn: Météo.sk_comte
+	toColumn: Comté.sk_comte
+
+relationship 'Relevés capteurs_sk_comte_Comté_sk_comte'
+	fromColumn: 'Relevés capteurs'.sk_comte
+	toColumn: Comté.sk_comte
+
+relationship Prédictions_sk_comte_Comté_sk_comte
+	fromColumn: Prédictions.sk_comte
+	toColumn: Comté.sk_comte
+
+relationship Déclarations_sk_exploitant_Exploitant_sk_exploitant
+	fromColumn: Déclarations.sk_exploitant
+	toColumn: Exploitant.sk_exploitant
+
+relationship Prédictions_sk_exploitant_Exploitant_sk_exploitant
+	fromColumn: Prédictions.sk_exploitant
+	toColumn: Exploitant.sk_exploitant
+
+relationship Déclarations_sk_culture_Culture_sk_culture
+	fromColumn: Déclarations.sk_culture
+	toColumn: Culture.sk_culture
+
+relationship 'Déclarations_sk_source_eau_Source eau_sk_source_eau'
+	fromColumn: Déclarations.sk_source_eau
+	toColumn: 'Source eau'.sk_source_eau
+
+relationship 'Déclarations_sk_type_droit_Type droit_sk_type_droit'
+	fromColumn: Déclarations.sk_type_droit
+	toColumn: 'Type droit'.sk_type_droit
+
+relationship 'ET bassin_sk_bassin_Bassin_sk_bassin'
+	fromColumn: 'ET bassin'.sk_bassin
+	toColumn: Bassin.sk_bassin
+
+relationship 'Relevés capteurs_sk_capteur_Capteur_sk_capteur'
+	fromColumn: 'Relevés capteurs'.sk_capteur
+	toColumn: Capteur.sk_capteur
+
+relationship 'Relevés capteurs_sk_parcelle_Parcelle_sk_parcelle'
+	fromColumn: 'Relevés capteurs'.sk_parcelle
+	toColumn: Parcelle.sk_parcelle
+
+relationship Prédictions_Segment_Segments_Segment
+	fromColumn: Prédictions.Segment
+	toColumn: Segments.Segment
+

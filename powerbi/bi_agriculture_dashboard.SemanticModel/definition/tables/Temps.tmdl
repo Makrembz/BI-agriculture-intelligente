@@ -1,0 +1,100 @@
+table Temps
+	lineageTag: 11917b6b-c13b-40fa-9eda-2a7db3c6d3cc
+	dataCategory: Time
+
+	column sk_temps
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 25d9d8a9-b7ca-4bdd-960b-d88a8317fffa
+		sourceColumn: sk_temps
+
+	column Date
+		dataType: dateTime
+		isUnique
+		formatString: dd/MM/yyyy
+		lineageTag: 2b5a555e-8416-4d26-9edf-b3de51f5b5be
+		sourceColumn: date
+
+	column Année
+		dataType: int64
+		lineageTag: cd05e4a9-f2d3-4725-b620-c11e8b829ea7
+		summarizeBy: none
+		sourceColumn: annee
+
+	column 'Année hydrologique'
+		dataType: int64
+		lineageTag: 43ebaf36-5e99-442d-8c4c-6546392c829b
+		summarizeBy: none
+		sourceColumn: annee_hydrologique
+
+	column Trimestre
+		dataType: int64
+		lineageTag: 8bd6eb67-5fc4-408c-8c26-dfab8fba957d
+		summarizeBy: none
+		sourceColumn: trimestre
+
+	column 'N° mois'
+		dataType: int64
+		isHidden
+		lineageTag: bc01e88f-8fa6-4054-ae0f-099d36fcae97
+		sourceColumn: mois
+
+	column Mois
+		dataType: string
+		lineageTag: c9c6a1c9-8ccd-4734-88a9-77fd371ed9fd
+		sourceColumn: nom_mois
+		sortByColumn: 'N° mois'
+
+	column Année-mois
+		dataType: string
+		lineageTag: 7f2423c9-890f-49ba-88eb-7e76ab647bce
+		sourceColumn: annee_mois
+
+	column Jour
+		dataType: int64
+		lineageTag: 0ede3d4b-0c29-4d38-925c-e74f36f34e73
+		summarizeBy: none
+		sourceColumn: jour
+
+	column 'N° jour de semaine'
+		dataType: int64
+		isHidden
+		lineageTag: f7fda82a-6cf7-411b-a642-969af9baac80
+		sourceColumn: jour_semaine
+
+	column 'Jour de la semaine'
+		dataType: string
+		lineageTag: 1adfd7f0-1296-44b3-920b-d3f66ab727fa
+		sourceColumn: nom_jour_semaine
+		sortByColumn: 'N° jour de semaine'
+
+	column 'Premier jour du mois'
+		dataType: boolean
+		isHidden
+		lineageTag: 1aea5acd-9696-4a2e-8673-6a5c2f0f3fe2
+		sourceColumn: est_premier_jour_mois
+
+	hierarchy 'Hiérarchie des dates'
+		lineageTag: 779b56bb-673b-4b22-a41d-b4105e34a733
+
+		level Année
+			lineageTag: 6127973f-56fa-4081-b390-3dc7a8a49299
+			column: Année
+
+		level Trimestre
+			lineageTag: 45d1fd98-dcb3-4f3d-8a9f-89c730a624e5
+			column: Trimestre
+
+		level Mois
+			lineageTag: a90b4fa8-4e7b-40fe-9f88-7cc77ba17650
+			column: Mois
+
+		level Jour
+			lineageTag: 2027f981-e7be-4878-8c65-9cffdcabdfcc
+			column: Jour
+
+	partition Temps = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_temps"]}[Data], F = Table.SelectRows(T, each [sk_temps] <> -1), Typed = Table.TransformColumnTypes(F, {{"sk_temps", Int64.Type},{"date", type date},{"annee", Int64.Type},{"annee_hydrologique", Int64.Type},{"trimestre", Int64.Type},{"mois", Int64.Type},{"nom_mois", type text},{"annee_mois", type text},{"jour", Int64.Type},{"jour_semaine", Int64.Type},{"nom_jour_semaine", type text},{"est_premier_jour_mois", type logical}}) in Typed
+

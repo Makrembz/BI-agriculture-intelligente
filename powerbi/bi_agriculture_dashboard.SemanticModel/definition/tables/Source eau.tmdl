@@ -1,0 +1,30 @@
+table 'Source eau'
+	lineageTag: fac08c13-b35e-4551-9d73-115cbb365642
+
+	column sk_source_eau
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: d2886f8d-d665-4233-88ce-2c11b79e33e4
+		sourceColumn: sk_source_eau
+
+	column code_source
+		dataType: string
+		isHidden
+		lineageTag: 880b402d-3847-4ced-a8e9-352ce71a6e58
+		sourceColumn: code_source
+
+	column 'Source d''eau'
+		dataType: string
+		lineageTag: 43d9591e-21ff-4b34-8d94-54572b939d37
+		sourceColumn: libelle_source
+
+	column 'Catégorie de source'
+		dataType: string
+		lineageTag: b4a2cd23-960d-49ce-b09a-f2db7e3b625d
+		sourceColumn: categorie_source
+
+	partition 'Source eau' = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_source_eau"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_source_eau", Int64.Type},{"code_source", type text},{"libelle_source", type text},{"categorie_source", type text}}) in Typed
+

@@ -27,7 +27,7 @@ def _elbow(ks, inertias):
     x, y = (x - x.min()) / (x.max() - x.min()), (y - y.min()) / (y.max() - y.min() + 1e-12)
     x1, y1, x2, y2 = x[0], y[0], x[-1], y[-1]
     norm = np.hypot(x2 - x1, y2 - y1) or 1.0
-    dist = [abs((x2 - x1) * (b - y1) - (y2 - y1) * (a - x1)) / norm for a, b in zip(x, y)]
+    dist = [abs((x2 - x1) * (b - y1) - (y2 - y1) * (a - x1)) / norm for a, b in zip(x, y)]   # distance a la corde
     return ks[int(np.argmax(dist))]
 
 

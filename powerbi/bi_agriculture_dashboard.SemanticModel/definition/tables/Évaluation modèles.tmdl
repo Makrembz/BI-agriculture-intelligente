@@ -1,0 +1,51 @@
+table 'Évaluation modèles'
+	lineageTag: 5802a9d8-2eba-452d-975d-9a89ab336ba9
+
+	column Modèle
+		dataType: string
+		lineageTag: 0be459cf-1789-4b0f-b7fd-8c8605ecdd34
+		sourceColumn: nom_modele
+
+	column Version
+		dataType: string
+		isHidden
+		lineageTag: 65e57cb1-32a3-479a-9e2e-39f3b85c792c
+		sourceColumn: version_modele
+
+	column Cible
+		dataType: string
+		lineageTag: 8d4b5ba4-54ce-4f9e-99ca-4b236d122994
+		sourceColumn: cible
+
+	column Périmètre
+		dataType: string
+		lineageTag: b921c657-a91a-464d-a1d7-b9c4c915be5e
+		sourceColumn: perimetre
+
+	column Métrique
+		dataType: string
+		lineageTag: 7dd9ea5d-f8a7-4b71-a1a3-ea3f2908bcfd
+		sourceColumn: metrique
+
+	column Valeur
+		dataType: double
+		formatString: #,0.000
+		lineageTag: dff935e2-cf7a-4a2e-a887-b867d07890f8
+		summarizeBy: none
+		sourceColumn: valeur
+
+	column 'Modèle retenu'
+		dataType: boolean
+		lineageTag: 466bc99b-fc10-43e3-821e-5fe442b4f8ca
+		sourceColumn: retenu
+
+	column date_calcul
+		dataType: dateTime
+		isHidden
+		lineageTag: 89ecb694-4fd9-4057-aae1-16c2203f404c
+		sourceColumn: date_calcul
+
+	partition 'Évaluation modèles' = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="ref_modele_evaluation"]}[Data], Typed = Table.TransformColumnTypes(T, {{"nom_modele", type text},{"version_modele", type text},{"cible", type text},{"perimetre", type text},{"metrique", type text},{"valeur", type number},{"retenu", type logical},{"date_calcul", type datetime}}) in Typed
+

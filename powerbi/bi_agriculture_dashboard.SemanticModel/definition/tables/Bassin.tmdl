@@ -1,0 +1,25 @@
+table Bassin
+	lineageTag: 77519330-660a-4d59-b05f-b23fcc45c4b5
+
+	column sk_bassin
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 3df757e7-804c-4dfd-8fde-0971e36cab1f
+		sourceColumn: sk_bassin
+
+	column code_bassin
+		dataType: string
+		isHidden
+		lineageTag: aa9de5ec-78ba-4bac-a005-0fa6aac8083a
+		sourceColumn: code_bassin
+
+	column Bassin
+		dataType: string
+		lineageTag: 933a490c-a215-4b61-90c1-501a45d3f7de
+		sourceColumn: nom_bassin
+
+	partition Bassin = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_bassin"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_bassin", Int64.Type},{"code_bassin", type text},{"nom_bassin", type text}}) in Typed
+

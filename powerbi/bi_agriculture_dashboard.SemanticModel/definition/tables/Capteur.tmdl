@@ -1,0 +1,35 @@
+table Capteur
+	lineageTag: dd1750cc-6dea-4d18-8f1d-a5bcd12ae722
+
+	column sk_capteur
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 1e7f0318-1347-41ca-9315-c4a5f8225f10
+		sourceColumn: sk_capteur
+
+	column Capteur
+		dataType: string
+		lineageTag: 4edade3b-4187-48e2-8ea0-6eaf85664df1
+		sourceColumn: id_capteur
+
+	column 'Type de capteur'
+		dataType: string
+		lineageTag: 38da8523-a49c-4d66-a062-75fb0ff35bc5
+		sourceColumn: type_capteur
+
+	column 'Date d''installation'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: 34d6b267-5ec1-42c0-9df0-1d28aa5abeb0
+		sourceColumn: date_installation
+
+	column Statut
+		dataType: string
+		lineageTag: b6b39a43-2b44-4a8e-83c5-fc3cff303ed0
+		sourceColumn: statut
+
+	partition Capteur = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_capteur"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_capteur", Int64.Type},{"id_capteur", type text},{"type_capteur", type text},{"date_installation", type date},{"statut", type text}}) in Typed
+

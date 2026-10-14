@@ -1,0 +1,90 @@
+table Déclarations
+	lineageTag: 60ca6a44-b61b-4c4d-ac15-68991f3eec39
+
+	column 'N° déclaration'
+		dataType: string
+		lineageTag: 95ee87e7-9835-42a4-93fd-7d1149de8bd5
+		sourceColumn: id_declaration
+
+	column sk_temps
+		dataType: int64
+		isHidden
+		lineageTag: bc8c0452-8875-45c9-bf50-4255d73a2664
+		sourceColumn: sk_temps
+
+	column sk_comte
+		dataType: int64
+		isHidden
+		lineageTag: e5895cf6-5a2b-40d3-a40b-995889174594
+		sourceColumn: sk_comte
+
+	column sk_exploitant
+		dataType: int64
+		isHidden
+		lineageTag: 2b933f53-db98-4a4b-8c89-521102766dee
+		sourceColumn: sk_exploitant
+
+	column sk_culture
+		dataType: int64
+		isHidden
+		lineageTag: 78d5e6e0-0aee-4ce8-a9db-c3c6c635fd81
+		sourceColumn: sk_culture
+
+	column sk_source_eau
+		dataType: int64
+		isHidden
+		lineageTag: 60bfc4f2-b040-4a11-9525-cd57666ebfeb
+		sourceColumn: sk_source_eau
+
+	column sk_type_droit
+		dataType: int64
+		isHidden
+		lineageTag: 0fee476e-9cbd-410a-9b6a-18152e5c240d
+		sourceColumn: sk_type_droit
+
+	column volume_autorise_acft
+		dataType: double
+		isHidden
+		lineageTag: 638b118a-3ed8-4250-80c0-2e5fb522d3f7
+		sourceColumn: volume_autorise_acft
+
+	column volume_declare_acft
+		dataType: double
+		isHidden
+		lineageTag: 7cea83e7-ffab-44b9-97e1-667f865466b3
+		sourceColumn: volume_declare_acft
+
+	column surface_irriguee_acres
+		dataType: double
+		isHidden
+		lineageTag: 58649dfe-b348-4fc4-8db0-3da73bdb2ff6
+		sourceColumn: surface_irriguee_acres
+
+	column nb_declarations
+		dataType: int64
+		isHidden
+		lineageTag: a90b22c2-e036-4a77-80e4-0a206f93e37c
+		sourceColumn: nb_declarations
+
+	column nb_champs_renseignes
+		dataType: int64
+		isHidden
+		lineageTag: 2cb0c6d8-afe3-4fd2-b049-da60c38f65a8
+		sourceColumn: nb_champs_renseignes
+
+	column nb_champs_attendus
+		dataType: int64
+		isHidden
+		lineageTag: 468d6156-9218-4fc5-b2d8-782a4917831f
+		sourceColumn: nb_champs_attendus
+
+	column indicateur_culture_renseignee
+		dataType: int64
+		isHidden
+		lineageTag: d6d7ca7d-7fab-4412-9875-d176739d580e
+		sourceColumn: indicateur_culture_renseignee
+
+	partition Déclarations = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="fait_declaration_irrigation"]}[Data], Typed = Table.TransformColumnTypes(T, {{"id_declaration", type text},{"sk_temps", Int64.Type},{"sk_comte", Int64.Type},{"sk_exploitant", Int64.Type},{"sk_culture", Int64.Type},{"sk_source_eau", Int64.Type},{"sk_type_droit", Int64.Type},{"volume_autorise_acft", type number},{"volume_declare_acft", type number},{"surface_irriguee_acres", type number},{"nb_declarations", Int64.Type},{"nb_champs_renseignes", Int64.Type},{"nb_champs_attendus", Int64.Type},{"indicateur_culture_renseignee", Int64.Type}}) in Typed
+

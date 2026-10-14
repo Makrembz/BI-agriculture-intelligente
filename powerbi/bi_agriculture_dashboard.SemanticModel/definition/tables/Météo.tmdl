@@ -1,0 +1,79 @@
+table Météo
+	lineageTag: b5fd8a0d-aa0f-4523-b622-04dec48ec43a
+
+	column sk_temps
+		dataType: int64
+		isHidden
+		lineageTag: 0c3a19df-fa28-4fb6-a55c-2e7d878e666b
+		sourceColumn: sk_temps
+
+	column sk_comte
+		dataType: int64
+		isHidden
+		lineageTag: 5ba314a9-d27d-499e-a0fe-0f446dd62503
+		sourceColumn: sk_comte
+
+	column temperature_min_c
+		dataType: double
+		isHidden
+		lineageTag: 80f9a801-09cd-426c-962c-ec0a4a9fc296
+		sourceColumn: temperature_min_c
+
+	column temperature_max_c
+		dataType: double
+		isHidden
+		lineageTag: 23c4da87-9933-4803-8f82-683c8967c786
+		sourceColumn: temperature_max_c
+
+	column temperature_moy_c
+		dataType: double
+		isHidden
+		lineageTag: 6496066f-f2f3-4555-9cb6-30ade3145775
+		sourceColumn: temperature_moy_c
+
+	column precipitations_mm
+		dataType: double
+		isHidden
+		lineageTag: 86137514-94b7-4ab3-9136-aef02638e139
+		sourceColumn: precipitations_mm
+
+	column et0_mm
+		dataType: double
+		isHidden
+		lineageTag: d1ab809a-adba-4933-80c4-eac9ab1eb854
+		sourceColumn: et0_mm
+
+	column humidite_relative_pct
+		dataType: double
+		isHidden
+		lineageTag: c8c6b672-256c-4757-b9e1-4fd10f60aaad
+		sourceColumn: humidite_relative_pct
+
+	column vent_kmh
+		dataType: double
+		isHidden
+		lineageTag: adee2fa9-9f6f-471a-8dae-047aeebbdb8e
+		sourceColumn: vent_kmh
+
+	column rayonnement_mjm2
+		dataType: double
+		isHidden
+		lineageTag: 81841525-3c16-43bd-a55a-d808eea58231
+		sourceColumn: rayonnement_mjm2
+
+	column humidite_sol_m3m3
+		dataType: double
+		isHidden
+		lineageTag: 8a465318-100d-47eb-9c3a-a112c44485f8
+		sourceColumn: humidite_sol_m3m3
+
+	column temperature_sol_c
+		dataType: double
+		isHidden
+		lineageTag: 40200454-58db-4bd3-8d15-6848cd974663
+		sourceColumn: temperature_sol_c
+
+	partition Météo = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="fait_meteo_jour"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_temps", Int64.Type},{"sk_comte", Int64.Type},{"temperature_min_c", type number},{"temperature_max_c", type number},{"temperature_moy_c", type number},{"precipitations_mm", type number},{"et0_mm", type number},{"humidite_relative_pct", type number},{"vent_kmh", type number},{"rayonnement_mjm2", type number},{"humidite_sol_m3m3", type number},{"temperature_sol_c", type number}}) in Typed
+

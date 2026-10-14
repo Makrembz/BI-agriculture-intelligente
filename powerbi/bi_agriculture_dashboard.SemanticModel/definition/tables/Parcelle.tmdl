@@ -1,0 +1,50 @@
+table Parcelle
+	lineageTag: efe728c7-5c65-42d9-9339-d5057c1440ca
+
+	column sk_parcelle
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 59131673-8640-4952-bdbd-e6b6cadde13d
+		sourceColumn: sk_parcelle
+
+	column Parcelle
+		dataType: string
+		lineageTag: dd8bb6fb-f2f2-4c17-89d7-80ff7bf3bd79
+		sourceColumn: id_parcelle
+
+	column 'Surface parcelle (acres)'
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 0a6080eb-1de3-4a46-a403-6c039fe79429
+		summarizeBy: none
+		sourceColumn: surface_acres
+
+	column 'Culture dominante'
+		dataType: string
+		lineageTag: a254c527-404f-4f7e-85df-5bc05318412b
+		sourceColumn: culture_dominante
+
+	column Latitude
+		dataType: double
+		lineageTag: 3bc88864-f284-471e-a491-5399a176181a
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column Longitude
+		dataType: double
+		lineageTag: ca079889-73a9-4101-a5e4-2419a6b8c3d6
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column Origine
+		dataType: string
+		lineageTag: 2d1948fd-98cc-424e-81a3-3fcbf8275d3a
+		sourceColumn: origine
+
+	partition Parcelle = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="dim_parcelle"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_parcelle", Int64.Type},{"id_parcelle", type text},{"surface_acres", type number},{"culture_dominante", type text},{"latitude", type number},{"longitude", type number},{"origine", type text}}) in Typed
+

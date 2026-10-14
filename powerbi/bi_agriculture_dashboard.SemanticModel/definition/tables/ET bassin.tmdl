@@ -1,0 +1,55 @@
+table 'ET bassin'
+	lineageTag: 9875b32d-4082-4d74-b1ee-fbc19dadb85d
+
+	column sk_temps
+		dataType: int64
+		isHidden
+		lineageTag: dab63240-c746-40c8-a5ce-cffc966c8387
+		sourceColumn: sk_temps
+
+	column sk_bassin
+		dataType: int64
+		isHidden
+		lineageTag: 79bc23f5-3c8c-435f-a2cc-74462420e39c
+		sourceColumn: sk_bassin
+
+	column et_moyenne_acft
+		dataType: double
+		isHidden
+		lineageTag: ff97c312-fd28-41dc-8974-8f7c83b7f8d4
+		sourceColumn: et_moyenne_acft
+
+	column et_moyenne_pouces
+		dataType: double
+		isHidden
+		lineageTag: 3f607d06-a6c4-47f8-9e9f-2389848bad74
+		sourceColumn: et_moyenne_pouces
+
+	column et_min_modeles_acft
+		dataType: double
+		isHidden
+		lineageTag: c56fa81a-ac54-466e-829b-812cde09d6e3
+		sourceColumn: et_min_modeles_acft
+
+	column et_max_modeles_acft
+		dataType: double
+		isHidden
+		lineageTag: d082fc46-8118-4aa3-bf5f-816fbaaf1136
+		sourceColumn: et_max_modeles_acft
+
+	column et_ecart_type_modeles_acft
+		dataType: double
+		isHidden
+		lineageTag: ca0f37cd-b0d5-4360-86bd-6f95e2103cb1
+		sourceColumn: et_ecart_type_modeles_acft
+
+	column nb_modeles_renseignes
+		dataType: int64
+		isHidden
+		lineageTag: 0ca90698-fbf8-4e0b-aa72-2bc0473d584e
+		sourceColumn: nb_modeles_renseignes
+
+	partition 'ET bassin' = m
+		mode: import
+		source = let Source = PostgreSQL.Database("localhost", "bi_agriculture_dw"), T = Source{[Schema="dwh", Item="fait_et_mensuelle_bassin"]}[Data], Typed = Table.TransformColumnTypes(T, {{"sk_temps", Int64.Type},{"sk_bassin", Int64.Type},{"et_moyenne_acft", type number},{"et_moyenne_pouces", type number},{"et_min_modeles_acft", type number},{"et_max_modeles_acft", type number},{"et_ecart_type_modeles_acft", type number},{"nb_modeles_renseignes", Int64.Type}}) in Typed
+

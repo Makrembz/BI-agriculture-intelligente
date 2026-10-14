@@ -1,0 +1,12 @@
+table Tarif
+	lineageTag: f4b4ea7d-0828-4dfc-9665-40a61e529967
+
+	column 'Tarif (USD par ac-ft)'
+		lineageTag: c35eec84-fc53-4d9f-9617-608e494c7001
+		isNameInferred
+		sourceColumn: [Tarif (USD par ac-ft)]
+
+	partition Tarif = calculated
+		mode: import
+		source = SELECTCOLUMNS(GENERATESERIES(0, 500, 5), "Tarif (USD par ac-ft)", [Value])
+
