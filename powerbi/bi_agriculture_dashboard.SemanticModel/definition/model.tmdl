@@ -11,6 +11,8 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
 
+annotation PBI_QueryOrder = ["Temps","Comté","Exploitant","Culture","Source eau","Type droit","Bassin","Parcelle","Capteur","Déclarations","ET comté","ET bassin","Météo","Relevés capteurs","Prédictions","Évaluation modèles","Segments"]
+
 ref table Temps
 ref table Comté
 ref table Exploitant
@@ -30,6 +32,8 @@ ref table 'Évaluation modèles'
 ref table Segments
 ref table _Mesures
 ref table Tarif
+ref table DateTableTemplate_d756b88e-1280-4ef5-a878-0a9da0a0262b
+ref table LocalDateTable_d565217f-3a48-454b-bf41-deffd13dda86
 
 ref cultureInfo en-US
 

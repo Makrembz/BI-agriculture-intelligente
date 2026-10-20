@@ -78,3 +78,8 @@ relationship Prédictions_Segment_Segments_Segment
 	fromColumn: Prédictions.Segment
 	toColumn: Segments.Segment
 
+relationship 40355b5c-4397-4aaa-967b-b1e6c28c22a3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Capteur.'Date d''installation'
+	toColumn: LocalDateTable_d565217f-3a48-454b-bf41-deffd13dda86.Date
+

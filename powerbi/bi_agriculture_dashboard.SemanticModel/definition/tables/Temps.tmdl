@@ -14,7 +14,12 @@ table Temps
 		isUnique
 		formatString: dd/MM/yyyy
 		lineageTag: 2b5a555e-8416-4d26-9edf-b3de51f5b5be
+		summarizeBy: none
 		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
 
 	column Année
 		dataType: int64
