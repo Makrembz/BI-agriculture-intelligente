@@ -1,0 +1,209 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "1621d843e9187a9c9706",
+  "position": {
+    "x": 10,
+    "y": 108,
+    "z": 4,
+    "height": 600,
+    "width": 1260,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Évaluation modèles"
+                    }
+                  },
+                  "Property": "Modèle"
+                }
+              },
+              "queryRef": "Évaluation modèles.Modèle",
+              "nativeQueryRef": "Modèle"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Évaluation modèles"
+                    }
+                  },
+                  "Property": "Cible"
+                }
+              },
+              "queryRef": "Évaluation modèles.Cible",
+              "nativeQueryRef": "Cible"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Évaluation modèles"
+                    }
+                  },
+                  "Property": "Périmètre"
+                }
+              },
+              "queryRef": "Évaluation modèles.Périmètre",
+              "nativeQueryRef": "Périmètre"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Évaluation modèles"
+                    }
+                  },
+                  "Property": "Métrique"
+                }
+              },
+              "queryRef": "Évaluation modèles.Métrique",
+              "nativeQueryRef": "Métrique"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Évaluation modèles"
+                    }
+                  },
+                  "Property": "Valeur"
+                }
+              },
+              "queryRef": "Évaluation modèles.Valeur",
+              "nativeQueryRef": "Valeur"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Évaluation modèles"
+                    }
+                  },
+                  "Property": "Modèle retenu"
+                }
+              },
+              "queryRef": "Évaluation modèles.Modèle retenu",
+              "nativeQueryRef": "Modèle retenu"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Comparaison des modèles'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#13402C'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#CBD9D0'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
